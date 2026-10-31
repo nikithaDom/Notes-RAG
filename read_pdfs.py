@@ -1,191 +1,209 @@
 """
-read_pdfs.py
-------------
-1. Reads every PDF in ./data
-2. Splits each page into overlapping chunks
-3. Embeds every chunk once using a local model (all-MiniLM-L6-v2)
-4. At search time: embeds the question, finds top-3 chunks by cosine similarity
+read_pdfs.py  —  A simple local RAG pipeline
+----------------------------------------------
+Steps:
+  1. Read every PDF in ./data
+  2. Split pages into overlapping chunks
+  3. Embed every chunk once (all-MiniLM-L6-v2, runs offline)
+  4. On each question:
+       a. Embed the question
+       b. Find top-3 chunks by cosine similarity  (Retrieve)
+       c. Build a prompt with those chunks        (Augment)
+       d. Call Gemini to answer                   (Generate)
 """
 
-import numpy as np                              # Part 1a - math on arrays of numbers
-from pathlib import Path                        # Part 1b - find files on disk
-from pypdf import PdfReader                     # Part 1c - open and read PDF files
-from sentence_transformers import SentenceTransformer  # Part 1d - the embedding model
+import os
+# pyrefly: ignore[missing-import]
+import numpy as np
+from pathlib import Path
+# pyrefly: ignore[missing-import]
+from dotenv import load_dotenv                          # Part 1 – read .env file
+# pyrefly: ignore[missing-import]
+from pypdf import PdfReader                             # Part 2 – open PDFs
+# pyrefly: ignore[missing-import]
+from sentence_transformers import SentenceTransformer   # Part 3 – local embeddings
+# pyrefly: ignore[missing-import]
+from google import genai                                # Part 4 – Gemini API client
 
 
-# ── Part 2: Settings ──────────────────────────────────────────────────────────
-CHUNK_SIZE  = 400                       # target words per chunk
-OVERLAP     = 50                        # words shared between neighbouring chunks
-TOP_K       = 3                         # how many results to show
-MODEL_NAME  = "all-MiniLM-L6-v2"       # small, fast, free, runs fully offline
+# ── Part 5: Load the API key from .env ───────────────────────────────────────
+#   .env is a plain text file that holds secrets.
+#   We never put secrets directly in the code (someone might share the file).
+#   load_dotenv() reads .env and puts the values into os.environ so the
+#   rest of the program can access them with os.getenv().
+load_dotenv()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+if not GEMINI_API_KEY or GEMINI_API_KEY == "your_api_key_here":
+    raise SystemExit(
+        "ERROR: Add your Gemini API key to the .env file.\n"
+        "  Open .env and replace 'your_api_key_here' with your real key."
+    )
 
 
-# ── Part 3: The chunking function (unchanged) ─────────────────────────────────
+# ── Part 6: Settings ──────────────────────────────────────────────────────────
+CHUNK_SIZE    = 400
+OVERLAP       = 50
+TOP_K         = 3
+EMBED_MODEL   = "all-MiniLM-L6-v2"
+GEMINI_MODEL  = "gemini-2.0-flash"
+
+
+# ── Part 7: Chunking function ─────────────────────────────────────────────────
 def chunk_text(text, filename, page_num,
                chunk_size=CHUNK_SIZE, overlap=OVERLAP):
-    """
-    Split `text` into overlapping word chunks.
-    Each chunk is a dict with: text, filename, page, chunk_idx.
-    """
     words  = text.split()
     chunks = []
     start  = 0
-
     while start < len(words):
-        end       = start + chunk_size
-        chunk_str = " ".join(words[start:end])
-
+        chunk_str = " ".join(words[start : start + chunk_size])
         chunks.append({
             "text"      : chunk_str,
             "filename"  : filename,
             "page"      : page_num,
             "chunk_idx" : len(chunks),
         })
-        start += chunk_size - overlap   # slide forward, keeping `overlap` words
-
+        start += chunk_size - overlap
     return chunks
 
 
-# ── Part 4: Cosine similarity function ───────────────────────────────────────
-def cosine_similarity(vec_a, vec_b):
-    """
-    Measure how similar two embeddings are.
-
-    An embedding is a list of numbers (a vector) that captures meaning.
-    Cosine similarity compares the *direction* of two vectors:
-      - Score of  1.0  → identical meaning
-      - Score of  0.0  → completely unrelated
-      - Score of -1.0  → opposite meaning (rare in practice)
-
-    Formula:
-        similarity = (A · B) / (|A| × |B|)
-
-    Plain English:
-        "Multiply matching positions, add them up,
-         then adjust so size does not matter — only direction does."
-    """
-    dot_product = np.dot(vec_a, vec_b)            # Step A: multiply & sum
-    norm_a      = np.linalg.norm(vec_a)           # Step B: length of vector A
-    norm_b      = np.linalg.norm(vec_b)           # Step C: length of vector B
-    return dot_product / (norm_a * norm_b + 1e-10)  # Step D: divide (avoid ÷0)
+# ── Part 8: Cosine similarity ─────────────────────────────────────────────────
+def cosine_similarity(a, b):
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-10)
 
 
-# ── Part 5: Load the embedding model ─────────────────────────────────────────
-#   This downloads ~90 MB once, then caches it locally.
-#   After the first run it works fully offline.
+# ── Part 9: Load the local embedding model ────────────────────────────────────
 print("Loading embedding model...")
-model = SentenceTransformer(MODEL_NAME)
-print(f"Model ready: {MODEL_NAME}\n")
+embedder = SentenceTransformer(EMBED_MODEL)
+print(f"Model ready: {EMBED_MODEL}\n")
 
 
-# ── Part 6: Load and chunk all PDFs ──────────────────────────────────────────
+# ── Part 10: Load, chunk and embed all PDFs ───────────────────────────────────
 DATA_DIR  = Path("data")
 pdf_files = sorted(DATA_DIR.glob("*.pdf"))
 
 if not pdf_files:
-    print("No PDF files found in the 'data' folder.")
-    exit()
+    raise SystemExit("No PDF files found in the 'data' folder.")
 
-print(f"Found {len(pdf_files)} PDF(s). Loading and chunking...\n")
-
+print(f"Found {len(pdf_files)} PDF(s). Loading and chunking...")
 all_chunks = []
 
 for pdf_path in pdf_files:
-    reader      = PdfReader(pdf_path)
-    total_pages = len(reader.pages)
-
+    reader = PdfReader(pdf_path)
     for page_num, page in enumerate(reader.pages, start=1):
         raw_text = page.extract_text()
-
         if not raw_text or not raw_text.strip():
-            continue                    # skip blank / image-only pages
+            continue
+        all_chunks.extend(chunk_text(raw_text, pdf_path.name, page_num))
 
-        page_chunks = chunk_text(
-            text     = raw_text,
-            filename = pdf_path.name,
-            page_num = page_num,
-        )
-        all_chunks.extend(page_chunks)
+print(f"Chunking done: {len(all_chunks)} chunks.\n")
+print("Embedding all chunks (one-time setup)...")
 
-print(f"Chunking done: {len(all_chunks)} chunks from {len(pdf_files)} PDF(s).")
-
-
-# ── Part 7: Embed every chunk ─────────────────────────────────────────────────
-#   We do this ONCE at startup.
-#   Each chunk's text → a list of 384 numbers that captures its meaning.
-#   These numbers are stored in a 2-D array: one row per chunk.
-#
-#   Why embed at startup?
-#     Embedding is slow (~1 second per 100 chunks).
-#     If we embedded on every search, a 1000-chunk library would take 10 seconds
-#     per question. Doing it once means search is instant.
-print("\nEmbedding all chunks (this may take a moment)...")
-
-chunk_texts      = [c["text"] for c in all_chunks]   # pull out just the text
-chunk_embeddings = model.encode(                       # convert to numbers
-    chunk_texts,
-    show_progress_bar = True,
-    convert_to_numpy  = True,
+chunk_embeddings = embedder.encode(
+    [c["text"] for c in all_chunks],
+    show_progress_bar=True,
+    convert_to_numpy=True,
 )
+print(f"Done. Each chunk = {chunk_embeddings.shape[1]}-number vector.\n")
 
-print(f"Done. Each chunk is now a vector of {chunk_embeddings.shape[1]} numbers.\n")
 
-
-# ── Part 8: The search function ───────────────────────────────────────────────
-def search(query, top_k=TOP_K):
+# ── Part 11: Retrieval — find the top-K most similar chunks ──────────────────
+def retrieve(query, top_k=TOP_K):
     """
-    Find the top_k chunks most similar in meaning to the query.
-
-    Steps:
-      A. Embed the question → a vector of 384 numbers.
-      B. Compute cosine similarity between the question vector
-         and every chunk vector.
-      C. Sort chunks by similarity score (highest = most similar).
-      D. Return the top_k.
+    Convert the question into a vector, then score every chunk.
+    Return the top_k chunks and their similarity scores.
     """
-    # Step A: turn the question into a vector
-    query_embedding = model.encode(query, convert_to_numpy=True)
+    q_vec  = embedder.encode(query, convert_to_numpy=True)
+    scores = [cosine_similarity(q_vec, chunk_embeddings[i])
+              for i in range(len(all_chunks))]
+    ranked = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)
+    return [(all_chunks[i], scores[i]) for i in ranked[:top_k]]
 
-    # Step B: score every chunk
-    scores = [
-        cosine_similarity(query_embedding, chunk_embeddings[i])
-        for i in range(len(all_chunks))
-    ]
 
-    # Step C: sort indices by score, best first
-    ranked_indices = sorted(
-        range(len(scores)),
-        key=lambda i: scores[i],
-        reverse=True,
+# ── Part 12: Build the prompt ─────────────────────────────────────────────────
+def build_prompt(question, results):
+    """
+    Assemble the text we send to Gemini.
+
+    We give the model:
+      - A strict instruction: answer ONLY from the provided context.
+      - The actual context (the top-3 chunks), each labelled with its source.
+      - The user's question.
+
+    Why the strict instruction?
+      Without it, the model uses its general knowledge and may invent answers
+      that are not in the notes. This is called 'hallucination'.
+      The instruction forces it to stay grounded in the retrieved text.
+    """
+    context_block = ""
+    for rank, (chunk, score) in enumerate(results, start=1):
+        context_block += (
+            f"[Source {rank}] File: {chunk['filename']} | Page: {chunk['page']}\n"
+            f"{chunk['text']}\n\n"
+        )
+
+    prompt = f"""You are a study assistant. Answer the question using ONLY the context below.
+- Cite each source as (File: <filename>, Page: <page>) after each relevant sentence.
+- If the answer is not in the context, say exactly: "I don't know based on these notes."
+- Do not use any outside knowledge.
+
+CONTEXT:
+{context_block}
+QUESTION: {question}
+
+ANSWER:"""
+    return prompt
+
+
+# ── Part 13: Generate — call Gemini ──────────────────────────────────────────
+def generate(prompt):
+    """
+    Send the prompt to Gemini and return the text response.
+
+    genai.Client uses GEMINI_API_KEY to authenticate.
+    client.models.generate_content() sends the prompt and gets a reply.
+    """
+    client   = genai.Client(api_key=GEMINI_API_KEY)
+    response = client.models.generate_content(
+        model    = "gemini-3.8-flash",
+        contents = prompt,
     )
-
-    # Step D: return top_k (chunk dict + its score)
-    return [
-        (all_chunks[i], scores[i])
-        for i in ranked_indices[:top_k]
-    ]
+    return response.text
 
 
-# ── Part 9: Interactive search loop ──────────────────────────────────────────
+# ── Part 14: Interactive RAG loop ─────────────────────────────────────────────
 print("=" * 70)
-print("  SEMANTIC SEARCH  (type 'quit' to exit)")
+print("  NOTES RAG  —  ask questions about your PDFs  (type 'quit' to exit)")
 print("=" * 70)
 
 while True:
-    query = input("\nYour question: ").strip()
+    question = input("\nYour question: ").strip()
 
-    if not query:
+    if not question:
         continue
-    if query.lower() in ("quit", "exit", "q"):
+    if question.lower() in ("quit", "exit", "q"):
         print("Bye!")
         break
 
-    results = search(query)
+    # Step A: Retrieve top-3 chunks
+    print("\nSearching notes...")
+    results = retrieve(question)
 
-    print()
+    # Step B: Build the prompt
+    prompt = build_prompt(question, results)
+
+    # Step C: Generate the answer
+    print("Asking Gemini...\n")
+    answer = generate(prompt)
+
+    # Step D: Print the answer
+    print("-" * 70)
+    print("ANSWER:")
+    print(answer)
+
+    # Step E: Print the sources used
+    print("\nSOURCES RETRIEVED:")
     for rank, (chunk, score) in enumerate(results, start=1):
-        print(f"  -- Result {rank}  (similarity: {score:.3f}) " + "-" * 28)
-        print(f"  File : {chunk['filename']}")
-        print(f"  Page : {chunk['page']}  |  Chunk: {chunk['chunk_idx']}")
-        print(f"  Text : {chunk['text'][:300]}...")
-        print()
+        print(f"  [{rank}] {chunk['filename']}  |  Page {chunk['page']}"
+              f"  |  similarity: {score:.3f}")
+    print("-" * 70)

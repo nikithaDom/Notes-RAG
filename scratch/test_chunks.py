@@ -1,4 +1,5 @@
 from pathlib import Path
+# pyrefly: ignore[missing-import]
 from pypdf import PdfReader
 
 CHUNK_SIZE = 400
