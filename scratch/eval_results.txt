@@ -1,0 +1,365 @@
+========================================================================
+  RAG EVALUATION REPORT
+  Generated: 2026-11-03 11:59:31
+========================================================================
+
+SUMMARY
+----------------------------------------
+  Total questions    : 20
+  Answerable (w/ src): 17
+  Retrieval hit rate : 70.6%  (12 / 17 correct pages retrieved in top-3)
+
+========================================================================
+  PER-QUESTION RESULTS  (grade the 'Generated' column by hand)
+========================================================================
+
+Q01. [Straightforward ]  How many bits wide is the Address Register (AR) in the basic computer, and why?
+  Expected source : Unit 3 Part 2, p. 14
+  Retrieved chunks:
+    [1] Unit3 Part2 Basic Computer Organization.pdf  Page 14  sim=0.614  << HIT
+    [2] Unit3 Part2 Basic Computer Organization.pdf  Page 15  sim=0.592
+    [3] Unit3 Part2 Basic Computer Organization.pdf  Page 20  sim=0.561
+  Retrieval       : HIT
+
+  Generated answer:
+    The Address Register (AR) in the basic computer is 12 bits wide (File: Unit3 Part2 Basic Computer Organization.pdf, Page: 14). 
+    
+    It is 12 bits wide because the computer's memory consists of 4096 words, and $4096 = 2^{12}$, which requires a 12-bit address to access (File: Unit3 Part2 Basic Computer Organization.pdf, Page: 14).
+
+  Expected answer:
+    12 bits, because memory has 4096 (2¹²) words.
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q02. [Straightforward ] When is the input flag FGI set to 1, and when is it cleared?
+  Expected source : Unit 4, p. 4
+  Retrieved chunks:
+    [1] Unit4 IO Interrupts CPU Organization.pdf  Page 4  sim=0.524  << HIT
+    [2] Unit4 IO Interrupts CPU Organization.pdf  Page 3  sim=0.476
+    [3] Unit4 IO Interrupts CPU Organization.pdf  Page 5  sim=0.424
+  Retrieval       : HIT
+
+  Generated answer:
+    The input flag FGI is set to 1 when a new character is in INPR (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 4). It is cleared to 0 when the computer accepts it (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 4).
+
+  Expected answer:
+    FGI is set to 1 when a new character is in INPR. It is cleared to 0 when the computer accepts the character.
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q03. [Rephrased ] In a 16-bit instruction, which bit tells the hardware whether the address field points directly to the operand or to a pointer, and what are its two settings?
+  Expected source : Unit 3 Part 2, p. 20
+  Retrieved chunks:
+    [1] Unit4 IO Interrupts CPU Organization.pdf  Page 33  sim=0.715
+    [2] Unit4 IO Interrupts CPU Organization.pdf  Page 39  sim=0.691
+    [3] Unit3 Part2 Basic Computer Organization.pdf  Page 20  sim=0.652  << HIT
+  Retrieval       : HIT
+
+  Generated answer:
+    Bit 15 (the I bit) indicates whether the instruction uses direct or indirect addressing (File: Unit3 Part2 Basic Computer Organization.pdf, Page: 20). Its two settings are I = 0 for a direct address and I = 1 for an indirect address (File: Unit3 Part2 Basic Computer Organization.pdf, Page: 20).
+
+  Expected answer:
+    Bit 15, the I bit. I = 0 means direct addressing and I = 1 means indirect.
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q04. [Straightforward ] Write the microoperations of the interrupt cycle (RT0, RT1, RT2).
+  Expected source : Unit 4, p. 11 (also p. 15)
+  Retrieved chunks:
+    [1] Unit4 IO Interrupts CPU Organization.pdf  Page 8  sim=0.733
+    [2] Unit4 IO Interrupts CPU Organization.pdf  Page 17  sim=0.664
+    [3] Unit4 IO Interrupts CPU Organization.pdf  Page 13  sim=0.631
+  Retrieval       : MISS
+
+  Generated answer:
+    I don't know based on these notes.
+
+  Expected answer:
+    RT0: AR ← 0, TR ← PC. RT1: M[AR
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q05. [Straightforward ] What conditions must hold for the 128 × 8 RAM chip to be enabled?
+  Expected source : Unit 5, p. 28
+  Retrieved chunks:
+    [1] Unit5 IO and Memory Organization.pdf  Page 32  sim=0.545
+    [2] Unit5 IO and Memory Organization.pdf  Page 27  sim=0.518
+    [3] Unit5 IO and Memory Organization.pdf  Page 31  sim=0.503
+  Retrieval       : MISS
+
+  Generated answer:
+    For the 128 × 8 RAM chip to be enabled, the conditions CS1 = 1 and CS2' = 0 must hold (File: Unit5 IO and Memory Organization.pdf, Page: 32).
+
+  Expected answer:
+    CS1 = 1 and CS2' = 0.
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q06. [Multi-part ] What are the hex codes of ION and IOF, and what does each do to the IEN flip-flop?
+  Expected source : Unit 3 Part 2, p. 22 (hex codes) and Unit 4, p. 5 (microoperations)
+  Retrieved chunks:
+    [1] Unit4 IO Interrupts CPU Organization.pdf  Page 12  sim=0.527
+    [2] Unit4 IO Interrupts CPU Organization.pdf  Page 5  sim=0.507  << HIT
+    [3] Unit4 IO Interrupts CPU Organization.pdf  Page 9  sim=0.480
+  Retrieval       : HIT
+
+  Generated answer:
+    I don't know based on these notes.
+
+  Expected answer:
+    ION is F080 and sets IEN ← 1. IOF is F040 and sets IEN ← 0.
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q07. [Straightforward ] What are the three fields of the control word for the general-register CPU, and how wide is the whole word?
+  Expected source : Unit 4, p. 21
+  Retrieved chunks:
+    [1] Unit4 IO Interrupts CPU Organization.pdf  Page 18  sim=0.686
+    [2] Unit4 IO Interrupts CPU Organization.pdf  Page 19  sim=0.674
+    [3] Unit4 IO Interrupts CPU Organization.pdf  Page 33  sim=0.648
+  Retrieval       : MISS
+
+  Generated answer:
+    I don't know based on these notes.
+
+  Expected answer:
+    SELA (3 bits), SELB (3 bits), SELD (3 bits) and OPR (5 bits), so 14 bits in total.
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q08. [Unanswerable ] What are the individual stages of a RISC instruction pipeline?
+  Expected source : not in notes
+  Retrieved chunks:
+    [1] Unit4 IO Interrupts CPU Organization.pdf  Page 46  sim=0.649
+    [2] Unit4 IO Interrupts CPU Organization.pdf  Page 49  sim=0.589
+    [3] Unit4 IO Interrupts CPU Organization.pdf  Page 44  sim=0.571
+  Retrieval       : N/A (unanswerable question)
+
+  Generated answer:
+    I don't know based on these notes.
+
+  Expected answer:
+    Not in notes. The notes only list an “efficient instruction pipeline” as a RISC feature.
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q09. [Straightforward ] Give the PUSH microoperations for a memory stack. In which direction does the stack grow?
+  Expected source : Unit 4, p. 28
+  Retrieved chunks:
+    [1] Unit4 IO Interrupts CPU Organization.pdf  Page 28  sim=0.731  << HIT
+    [2] Unit4 IO Interrupts CPU Organization.pdf  Page 26  sim=0.666
+    [3] Unit4 IO Interrupts CPU Organization.pdf  Page 25  sim=0.589
+  Retrieval       : HIT
+
+  Generated answer:
+    The microoperations for a PUSH operation in a memory stack are:
+    1. $\text{SP} \leftarrow \text{SP} - 1$
+    2. $\text{M[SP]} \leftarrow \text{DR}$ (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 28).
+    
+    The stack grows toward lower addresses (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 28).
+
+  Expected answer:
+    PUSH is SP ← SP − 1, then M[SP
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q10. [Straightforward ] Write the fetch-phase microoperations at T0 and T1.
+  Expected source : Unit 3 Part 2, p. 27
+  Retrieved chunks:
+    [1] Unit3 Part2 Basic Computer Organization.pdf  Page 36  sim=0.547
+    [2] Unit4 IO Interrupts CPU Organization.pdf  Page 11  sim=0.508
+    [3] Unit4 IO Interrupts CPU Organization.pdf  Page 15  sim=0.505
+  Retrieval       : MISS
+
+  Generated answer:
+    Based on the provided notes, the fetch-phase microoperations at T0 and T1 are:
+    
+    * R'T0: AR ← PC (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 15)
+    * R'T1: IR ← M[AR], PC ← PC + 1 (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 15)
+
+  Expected answer:
+    T0: AR ← PC. T1: IR ← M[AR
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q11. [Rephrased ] Which addressing mode finds the operand address by adding a changing register value to the address field, which makes it well suited to stepping through arrays?
+  Expected source : Unit 4, p. 41
+  Retrieved chunks:
+    [1] Unit4 IO Interrupts CPU Organization.pdf  Page 39  sim=0.653
+    [2] Unit4 IO Interrupts CPU Organization.pdf  Page 40  sim=0.652
+    [3] Unit4 IO Interrupts CPU Organization.pdf  Page 41  sim=0.641  << HIT
+  Retrieval       : HIT
+
+  Generated answer:
+    The Indexed addressing mode finds the effective address by adding the index register (XR) to the address part, which is used for arrays (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 41).
+
+  Expected answer:
+    Indexed addressing, where EA = XR + address part.
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q12. [Straightforward ] Convert A * B + C * D to Reverse Polish notation.
+  Expected source : Unit 4, p. 29
+  Retrieved chunks:
+    [1] Unit4 IO Interrupts CPU Organization.pdf  Page 29  sim=0.713  << HIT
+    [2] Unit4 IO Interrupts CPU Organization.pdf  Page 30  sim=0.601
+    [3] Unit4 IO Interrupts CPU Organization.pdf  Page 32  sim=0.441
+  Retrieval       : HIT
+
+  Generated answer:
+    To convert $A * B + C * D$ to Reverse Polish notation, the result is A B * C D * + (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 29).
+
+  Expected answer:
+    ABCD+
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q13. [Multi-part ] Under what condition is flip-flop R set to 1, and where is the return address stored once the interrupt cycle runs?
+  Expected source : Unit 4, p. 9 (condition) and p. 11 (RT0–RT1; location 0 also on p. 10)
+  Retrieved chunks:
+    [1] Unit4 IO Interrupts CPU Organization.pdf  Page 14  sim=0.627
+    [2] Unit4 IO Interrupts CPU Organization.pdf  Page 17  sim=0.604
+    [3] Unit4 IO Interrupts CPU Organization.pdf  Page 11  sim=0.602  << HIT
+  Retrieval       : HIT
+
+  Generated answer:
+    Flip-flop R is set to 1 under the condition $T_0'T_1'T_2'(IEN)(FGI + FGO)$ during an instruction cycle (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 11). Once the interrupt cycle runs, the return address is stored in $M[0]$ (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 17).
+
+  Expected answer:
+    R ← 1 when IEN = 1 and (FGI = 1 or FGO = 1), checked at the end of an instruction (T0'T1'T2'). In the interrupt cycle the return address is saved in memory location 0 (M[
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q14. [Rephrased ] Which design style restricts memory access to load and store instructions, uses fixed-length instructions and prefers hardwired control?
+  Expected source : Unit 4, p. 46 (comparison on p. 47)
+  Retrieved chunks:
+    [1] Unit5 IO and Memory Organization.pdf  Page 27  sim=0.490
+    [2] Unit5 IO and Memory Organization.pdf  Page 24  sim=0.482
+    [3] Unit5 IO and Memory Organization.pdf  Page 22  sim=0.460
+  Retrieval       : MISS
+
+  Generated answer:
+    I don't know based on these notes.
+
+  Expected answer:
+    RISC.
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q15. [Straightforward ] What do BR and BG stand for in DMA, and who drives each?
+  Expected source : Unit 5, p. 18
+  Retrieved chunks:
+    [1] Unit5 IO and Memory Organization.pdf  Page 20  sim=0.514
+    [2] Unit5 IO and Memory Organization.pdf  Page 18  sim=0.500  << HIT
+    [3] Unit5 IO and Memory Organization.pdf  Page 21  sim=0.458
+  Retrieval       : HIT
+
+  Generated answer:
+    Based on the provided notes:
+    - **BR** stands for "bus request" (or bus request signal), which is driven by the DMA controller (or DMA asks the CPU) (File: Unit5 IO and Memory Organization.pdf, Page: 18, 20, 21).
+    - **BG** stands for "bus grant", which is driven by the CPU (File: Unit5 IO and Memory Organization.pdf, Page: 18, 20, 21).
+
+  Expected answer:
+    BR is bus request, driven by the DMA controller. BG is bus grant, driven by the CPU.
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q16. [Unanswerable ] How does a daisy-chain scheme decide which device is served first when several devices interrupt at once?
+  Expected source : not in notes
+  Retrieved chunks:
+    [1] Unit5 IO and Memory Organization.pdf  Page 14  sim=0.466
+    [2] Unit4 IO Interrupts CPU Organization.pdf  Page 17  sim=0.423
+    [3] Unit4 IO Interrupts CPU Organization.pdf  Page 11  sim=0.417
+  Retrieval       : N/A (unanswerable question)
+
+  Generated answer:
+    I don't know based on these notes.
+
+  Expected answer:
+    Not in notes. The notes cover vectored versus non-vectored interrupts and disabling interrupts with IEN, but not priority resolution.
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q17. [Multi-part ] For the 512-word cache example, how many index bits does direct mapping use, and how wide is a cache word in two-way set-associative mapping?
+  Expected source : Unit 5, p. 36 and p. 38
+  Retrieved chunks:
+    [1] Unit5 IO and Memory Organization.pdf  Page 36  sim=0.756  << HIT
+    [2] Unit5 IO and Memory Organization.pdf  Page 40  sim=0.705
+    [3] Unit5 IO and Memory Organization.pdf  Page 35  sim=0.682
+  Retrieval       : HIT
+
+  Generated answer:
+    For the 512-word cache example, direct mapping uses 9 index bits (File: Unit5 IO and Memory Organization.pdf, Page: 36). A cache word in two-way set-associative mapping is 36 bits wide (File: Unit5 IO and Memory Organization.pdf, Page: 40).
+
+  Expected answer:
+    Direct mapping uses a 9-bit index, with a 6-bit tag. Two-way set-associative uses 2 × (6 + 12) = 36-bit words, so the cache is 512 × 36 and holds 1024 memory words.
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q18. [Straightforward ] What does BSA do, and how many clocks does it need?
+  Expected source : Unit 3 Part 2, p. 34 (summary on p. 32)
+  Retrieved chunks:
+    [1] Unit3 Part2 Basic Computer Organization.pdf  Page 34  sim=0.405  << HIT
+    [2] Unit4 IO Interrupts CPU Organization.pdf  Page 20  sim=0.386
+    [3] Unit3 Part2 Basic Computer Organization.pdf  Page 12  sim=0.366
+  Retrieval       : HIT
+
+  Generated answer:
+    BSA (branch and save return address) stores the return address (M[AR] ← PC, AR ← AR + 1, then PC ← AR, SC ← 0) (File: Unit3 Part2 Basic Computer Organization.pdf, Page: 34). It needs two clocks (File: Unit3 Part2 Basic Computer Organization.pdf, Page: 34).
+
+  Expected answer:
+    It saves the return address and branches to the subroutine: M[AR
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q19. [Rephrased ] Which cache write policy updates main memory only when a modified word is removed from the cache?
+  Expected source : Unit 5, p. 39
+  Retrieved chunks:
+    [1] Unit5 IO and Memory Organization.pdf  Page 39  sim=0.752  << HIT
+    [2] Unit5 IO and Memory Organization.pdf  Page 34  sim=0.586
+    [3] Unit5 IO and Memory Organization.pdf  Page 33  sim=0.567
+  Retrieval       : HIT
+
+  Generated answer:
+    The write-back policy updates main memory only when the word is removed from the cache (File: Unit5 IO and Memory Organization.pdf, Page: 39).
+
+  Expected answer:
+    Write-back. The modified location is flagged, and main memory is updated when the word is evicted.
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------
+
+Q20. [Unanswerable ] How is least-recently-used (LRU) replacement implemented in hardware, for example with counters or a stack?
+  Expected source : not in notes
+  Retrieved chunks:
+    [1] Unit5 IO and Memory Organization.pdf  Page 41  sim=0.467
+    [2] Unit5 IO and Memory Organization.pdf  Page 38  sim=0.459
+    [3] Unit4 IO Interrupts CPU Organization.pdf  Page 46  sim=0.446
+  Retrieval       : N/A (unanswerable question)
+
+  Generated answer:
+    I don't know based on these notes.
+
+  Expected answer:
+    Not in notes. LRU is only named as one of the replacement options (random, FIFO, LRU).
+
+  [ ] Correct   [ ] Partially correct   [ ] Wrong
+------------------------------------------------------------------------

@@ -1,0 +1,105 @@
+1. [Straightforward
+]  How many bits wide is the Address Register (AR) in the basic computer, and why?
+Answer: 12 bits, because memory has 4096 (2¹²) words.
+Source: Unit 3 Part 2, p. 14
+
+2. [Straightforward
+] When is the input flag FGI set to 1, and when is it cleared?
+Answer: FGI is set to 1 when a new character is in INPR. It is cleared to 0 when the computer accepts the character.
+Source: Unit 4, p. 4
+
+3. [Rephrased
+] In a 16-bit instruction, which bit tells the hardware whether the address field points directly to the operand or to a pointer, and what are its two settings?
+Answer: Bit 15, the I bit. I = 0 means direct addressing and I = 1 means indirect.
+Source: Unit 3 Part 2, p. 20
+
+4. [Straightforward
+] Write the microoperations of the interrupt cycle (RT0, RT1, RT2).
+Answer: RT0: AR ← 0, TR ← PC. RT1: M[AR
+] ← TR, PC ← 0. RT2: PC ← PC + 1, IEN ← 0, R ← 0, SC ← 0.
+Source: Unit 4, p. 11 (also p. 15)
+
+5. [Straightforward
+] What conditions must hold for the 128 × 8 RAM chip to be enabled?
+Answer: CS1 = 1 and CS2' = 0.
+Source: Unit 5, p. 28
+
+6. [Multi-part
+] What are the hex codes of ION and IOF, and what does each do to the IEN flip-flop?
+Answer: ION is F080 and sets IEN ← 1. IOF is F040 and sets IEN ← 0.
+Source: Unit 3 Part 2, p. 22 (hex codes) and Unit 4, p. 5 (microoperations)
+
+7. [Straightforward
+] What are the three fields of the control word for the general-register CPU, and how wide is the whole word?
+Answer: SELA (3 bits), SELB (3 bits), SELD (3 bits) and OPR (5 bits), so 14 bits in total.
+Source: Unit 4, p. 21
+
+8. [Unanswerable
+] What are the individual stages of a RISC instruction pipeline?
+Answer: Not in notes. The notes only list an “efficient instruction pipeline” as a RISC feature.
+Source: not in notes
+
+9. [Straightforward
+] Give the PUSH microoperations for a memory stack. In which direction does the stack grow?
+Answer: PUSH is SP ← SP − 1, then M[SP
+] ← DR. The stack grows toward lower addresses.
+Source: Unit 4, p. 28
+
+10. [Straightforward
+] Write the fetch-phase microoperations at T0 and T1.
+Answer: T0: AR ← PC. T1: IR ← M[AR
+], PC ← PC + 1.
+Source: Unit 3 Part 2, p. 27
+
+11. [Rephrased
+] Which addressing mode finds the operand address by adding a changing register value to the address field, which makes it well suited to stepping through arrays?
+Answer: Indexed addressing, where EA = XR + address part.
+Source: Unit 4, p. 41
+
+12. [Straightforward
+] Convert A * B + C * D to Reverse Polish notation.
+Answer: ABCD+
+Source: Unit 4, p. 29
+
+13. [Multi-part
+] Under what condition is flip-flop R set to 1, and where is the return address stored once the interrupt cycle runs?
+Answer: R ← 1 when IEN = 1 and (FGI = 1 or FGO = 1), checked at the end of an instruction (T0'T1'T2'). In the interrupt cycle the return address is saved in memory location 0 (M[
+    0
+] ← TR).
+Source: Unit 4, p. 9 (condition) and p. 11 (RT0–RT1; location 0 also on p. 10)
+
+14. [Rephrased
+] Which design style restricts memory access to load and store instructions, uses fixed-length instructions and prefers hardwired control?
+Answer: RISC.
+Source: Unit 4, p. 46 (comparison on p. 47)
+
+15. [Straightforward
+] What do BR and BG stand for in DMA, and who drives each?
+Answer: BR is bus request, driven by the DMA controller. BG is bus grant, driven by the CPU.
+Source: Unit 5, p. 18
+
+16. [Unanswerable
+] How does a daisy-chain scheme decide which device is served first when several devices interrupt at once?
+Answer: Not in notes. The notes cover vectored versus non-vectored interrupts and disabling interrupts with IEN, but not priority resolution.
+Source: not in notes
+
+17. [Multi-part
+] For the 512-word cache example, how many index bits does direct mapping use, and how wide is a cache word in two-way set-associative mapping?
+Answer: Direct mapping uses a 9-bit index, with a 6-bit tag. Two-way set-associative uses 2 × (6 + 12) = 36-bit words, so the cache is 512 × 36 and holds 1024 memory words.
+Source: Unit 5, p. 36 and p. 38
+
+18. [Straightforward
+] What does BSA do, and how many clocks does it need?
+Answer: It saves the return address and branches to the subroutine: M[AR
+] ← PC, AR ← AR + 1 at T4, then PC ← AR at T5. It takes two clocks.
+Source: Unit 3 Part 2, p. 34 (summary on p. 32)
+
+19. [Rephrased
+] Which cache write policy updates main memory only when a modified word is removed from the cache?
+Answer: Write-back. The modified location is flagged, and main memory is updated when the word is evicted.
+Source: Unit 5, p. 39
+
+20. [Unanswerable
+] How is least-recently-used (LRU) replacement implemented in hardware, for example with counters or a stack?
+Answer: Not in notes. LRU is only named as one of the replacement options (random, FIFO, LRU).
+Source: not in notes

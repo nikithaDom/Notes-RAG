@@ -46,7 +46,7 @@ CHUNK_SIZE    = 400
 OVERLAP       = 50
 TOP_K         = 3
 EMBED_MODEL   = "all-MiniLM-L6-v2"
-GEMINI_MODEL  = "gemini-2.0-flash"
+GEMINI_MODEL  = "gemini-3.6-flash"
 
 
 # ── Part 7: Chunking function ─────────────────────────────────────────────────
@@ -165,7 +165,7 @@ def generate(prompt):
     """
     client   = genai.Client(api_key=GEMINI_API_KEY)
     response = client.models.generate_content(
-        model    = "gemini-3.8-flash",
+        model    = GEMINI_MODEL,
         contents = prompt,
     )
     return response.text

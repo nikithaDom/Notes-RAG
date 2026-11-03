@@ -1,0 +1,502 @@
+[
+  {
+    "id": 1,
+    "question": "[Straightforward ]  How many bits wide is the Address Register (AR) in the basic computer, and why?",
+    "generated": "The Address Register (AR) in the basic computer is 12 bits wide (File: Unit3 Part2 Basic Computer Organization.pdf, Page: 14). \n\nIt is 12 bits wide because the computer's memory consists of 4096 words, and $4096 = 2^{12}$, which requires a 12-bit address to access (File: Unit3 Part2 Basic Computer Organization.pdf, Page: 14).",
+    "hit": true,
+    "sources": [
+      {
+        "filename": "Unit3 Part2 Basic Computer Organization.pdf",
+        "page": 14,
+        "score": 0.614
+      },
+      {
+        "filename": "Unit3 Part2 Basic Computer Organization.pdf",
+        "page": 15,
+        "score": 0.5915
+      },
+      {
+        "filename": "Unit3 Part2 Basic Computer Organization.pdf",
+        "page": 20,
+        "score": 0.5612
+      }
+    ],
+    "expected_answer": "12 bits, because memory has 4096 (2¹²) words.",
+    "source_raw": "Unit 3 Part 2, p. 14"
+  },
+  {
+    "id": 2,
+    "question": "[Straightforward ] When is the input flag FGI set to 1, and when is it cleared?",
+    "generated": "The input flag FGI is set to 1 when a new character is in INPR (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 4). It is cleared to 0 when the computer accepts it (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 4).",
+    "hit": true,
+    "sources": [
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 4,
+        "score": 0.5239
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 3,
+        "score": 0.4758
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 5,
+        "score": 0.4243
+      }
+    ],
+    "expected_answer": "FGI is set to 1 when a new character is in INPR. It is cleared to 0 when the computer accepts the character.",
+    "source_raw": "Unit 4, p. 4"
+  },
+  {
+    "id": 3,
+    "question": "[Rephrased ] In a 16-bit instruction, which bit tells the hardware whether the address field points directly to the operand or to a pointer, and what are its two settings?",
+    "generated": "Bit 15 (the I bit) indicates whether the instruction uses direct or indirect addressing (File: Unit3 Part2 Basic Computer Organization.pdf, Page: 20). Its two settings are I = 0 for a direct address and I = 1 for an indirect address (File: Unit3 Part2 Basic Computer Organization.pdf, Page: 20).",
+    "hit": true,
+    "sources": [
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 33,
+        "score": 0.7149
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 39,
+        "score": 0.691
+      },
+      {
+        "filename": "Unit3 Part2 Basic Computer Organization.pdf",
+        "page": 20,
+        "score": 0.6519
+      }
+    ],
+    "expected_answer": "Bit 15, the I bit. I = 0 means direct addressing and I = 1 means indirect.",
+    "source_raw": "Unit 3 Part 2, p. 20"
+  },
+  {
+    "id": 4,
+    "question": "[Straightforward ] Write the microoperations of the interrupt cycle (RT0, RT1, RT2).",
+    "generated": "I don't know based on these notes.",
+    "hit": false,
+    "sources": [
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 8,
+        "score": 0.7325
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 17,
+        "score": 0.6641
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 13,
+        "score": 0.6309
+      }
+    ],
+    "expected_answer": "RT0: AR ← 0, TR ← PC. RT1: M[AR",
+    "source_raw": "Unit 4, p. 11 (also p. 15)"
+  },
+  {
+    "id": 5,
+    "question": "[Straightforward ] What conditions must hold for the 128 × 8 RAM chip to be enabled?",
+    "generated": "For the 128 × 8 RAM chip to be enabled, the conditions CS1 = 1 and CS2' = 0 must hold (File: Unit5 IO and Memory Organization.pdf, Page: 32).",
+    "hit": false,
+    "sources": [
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 32,
+        "score": 0.5451
+      },
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 27,
+        "score": 0.5175
+      },
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 31,
+        "score": 0.5027
+      }
+    ],
+    "expected_answer": "CS1 = 1 and CS2' = 0.",
+    "source_raw": "Unit 5, p. 28"
+  },
+  {
+    "id": 6,
+    "question": "[Multi-part ] What are the hex codes of ION and IOF, and what does each do to the IEN flip-flop?",
+    "generated": "I don't know based on these notes.",
+    "hit": true,
+    "sources": [
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 12,
+        "score": 0.5268
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 5,
+        "score": 0.5069
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 9,
+        "score": 0.4801
+      }
+    ],
+    "expected_answer": "ION is F080 and sets IEN ← 1. IOF is F040 and sets IEN ← 0.",
+    "source_raw": "Unit 3 Part 2, p. 22 (hex codes) and Unit 4, p. 5 (microoperations)"
+  },
+  {
+    "id": 7,
+    "question": "[Straightforward ] What are the three fields of the control word for the general-register CPU, and how wide is the whole word?",
+    "generated": "I don't know based on these notes.",
+    "hit": false,
+    "sources": [
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 18,
+        "score": 0.6863
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 19,
+        "score": 0.6739
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 33,
+        "score": 0.6477
+      }
+    ],
+    "expected_answer": "SELA (3 bits), SELB (3 bits), SELD (3 bits) and OPR (5 bits), so 14 bits in total.",
+    "source_raw": "Unit 4, p. 21"
+  },
+  {
+    "id": 8,
+    "question": "[Unanswerable ] What are the individual stages of a RISC instruction pipeline?",
+    "generated": "I don't know based on these notes.",
+    "hit": null,
+    "sources": [
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 46,
+        "score": 0.6487
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 49,
+        "score": 0.5892
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 44,
+        "score": 0.5709
+      }
+    ],
+    "expected_answer": "Not in notes. The notes only list an “efficient instruction pipeline” as a RISC feature.",
+    "source_raw": "not in notes"
+  },
+  {
+    "id": 9,
+    "question": "[Straightforward ] Give the PUSH microoperations for a memory stack. In which direction does the stack grow?",
+    "generated": "The microoperations for a PUSH operation in a memory stack are:\n1. $\\text{SP} \\leftarrow \\text{SP} - 1$\n2. $\\text{M[SP]} \\leftarrow \\text{DR}$ (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 28).\n\nThe stack grows toward lower addresses (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 28).",
+    "hit": true,
+    "sources": [
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 28,
+        "score": 0.7306
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 26,
+        "score": 0.6658
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 25,
+        "score": 0.5893
+      }
+    ],
+    "expected_answer": "PUSH is SP ← SP − 1, then M[SP",
+    "source_raw": "Unit 4, p. 28"
+  },
+  {
+    "id": 10,
+    "question": "[Straightforward ] Write the fetch-phase microoperations at T0 and T1.",
+    "generated": "Based on the provided notes, the fetch-phase microoperations at T0 and T1 are:\n\n* R'T0: AR ← PC (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 15)\n* R'T1: IR ← M[AR], PC ← PC + 1 (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 15)",
+    "hit": false,
+    "sources": [
+      {
+        "filename": "Unit3 Part2 Basic Computer Organization.pdf",
+        "page": 36,
+        "score": 0.5465
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 11,
+        "score": 0.5076
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 15,
+        "score": 0.5045
+      }
+    ],
+    "expected_answer": "T0: AR ← PC. T1: IR ← M[AR",
+    "source_raw": "Unit 3 Part 2, p. 27"
+  },
+  {
+    "id": 11,
+    "question": "[Rephrased ] Which addressing mode finds the operand address by adding a changing register value to the address field, which makes it well suited to stepping through arrays?",
+    "generated": "The Indexed addressing mode finds the effective address by adding the index register (XR) to the address part, which is used for arrays (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 41).",
+    "hit": true,
+    "sources": [
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 39,
+        "score": 0.6532
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 40,
+        "score": 0.6524
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 41,
+        "score": 0.6411
+      }
+    ],
+    "expected_answer": "Indexed addressing, where EA = XR + address part.",
+    "source_raw": "Unit 4, p. 41"
+  },
+  {
+    "id": 12,
+    "question": "[Straightforward ] Convert A * B + C * D to Reverse Polish notation.",
+    "generated": "To convert $A * B + C * D$ to Reverse Polish notation, the result is A B * C D * + (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 29).",
+    "hit": true,
+    "sources": [
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 29,
+        "score": 0.7132
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 30,
+        "score": 0.6015
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 32,
+        "score": 0.4414
+      }
+    ],
+    "expected_answer": "ABCD+",
+    "source_raw": "Unit 4, p. 29"
+  },
+  {
+    "id": 13,
+    "question": "[Multi-part ] Under what condition is flip-flop R set to 1, and where is the return address stored once the interrupt cycle runs?",
+    "generated": "Flip-flop R is set to 1 under the condition $T_0'T_1'T_2'(IEN)(FGI + FGO)$ during an instruction cycle (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 11). Once the interrupt cycle runs, the return address is stored in $M[0]$ (File: Unit4 IO Interrupts CPU Organization.pdf, Page: 17).",
+    "hit": true,
+    "sources": [
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 14,
+        "score": 0.6274
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 17,
+        "score": 0.6039
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 11,
+        "score": 0.6021
+      }
+    ],
+    "expected_answer": "R ← 1 when IEN = 1 and (FGI = 1 or FGO = 1), checked at the end of an instruction (T0'T1'T2'). In the interrupt cycle the return address is saved in memory location 0 (M[",
+    "source_raw": "Unit 4, p. 9 (condition) and p. 11 (RT0–RT1; location 0 also on p. 10)"
+  },
+  {
+    "id": 14,
+    "question": "[Rephrased ] Which design style restricts memory access to load and store instructions, uses fixed-length instructions and prefers hardwired control?",
+    "generated": "I don't know based on these notes.",
+    "hit": false,
+    "sources": [
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 27,
+        "score": 0.4905
+      },
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 24,
+        "score": 0.4821
+      },
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 22,
+        "score": 0.4597
+      }
+    ],
+    "expected_answer": "RISC.",
+    "source_raw": "Unit 4, p. 46 (comparison on p. 47)"
+  },
+  {
+    "id": 15,
+    "question": "[Straightforward ] What do BR and BG stand for in DMA, and who drives each?",
+    "generated": "Based on the provided notes:\n- **BR** stands for \"bus request\" (or bus request signal), which is driven by the DMA controller (or DMA asks the CPU) (File: Unit5 IO and Memory Organization.pdf, Page: 18, 20, 21).\n- **BG** stands for \"bus grant\", which is driven by the CPU (File: Unit5 IO and Memory Organization.pdf, Page: 18, 20, 21).",
+    "hit": true,
+    "sources": [
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 20,
+        "score": 0.5145
+      },
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 18,
+        "score": 0.5
+      },
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 21,
+        "score": 0.4581
+      }
+    ],
+    "expected_answer": "BR is bus request, driven by the DMA controller. BG is bus grant, driven by the CPU.",
+    "source_raw": "Unit 5, p. 18"
+  },
+  {
+    "id": 16,
+    "question": "[Unanswerable ] How does a daisy-chain scheme decide which device is served first when several devices interrupt at once?",
+    "generated": "I don't know based on these notes.",
+    "hit": null,
+    "sources": [
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 14,
+        "score": 0.4658
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 17,
+        "score": 0.4232
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 11,
+        "score": 0.4168
+      }
+    ],
+    "expected_answer": "Not in notes. The notes cover vectored versus non-vectored interrupts and disabling interrupts with IEN, but not priority resolution.",
+    "source_raw": "not in notes"
+  },
+  {
+    "id": 17,
+    "question": "[Multi-part ] For the 512-word cache example, how many index bits does direct mapping use, and how wide is a cache word in two-way set-associative mapping?",
+    "generated": "For the 512-word cache example, direct mapping uses 9 index bits (File: Unit5 IO and Memory Organization.pdf, Page: 36). A cache word in two-way set-associative mapping is 36 bits wide (File: Unit5 IO and Memory Organization.pdf, Page: 40).",
+    "hit": true,
+    "sources": [
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 36,
+        "score": 0.756
+      },
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 40,
+        "score": 0.7054
+      },
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 35,
+        "score": 0.6824
+      }
+    ],
+    "expected_answer": "Direct mapping uses a 9-bit index, with a 6-bit tag. Two-way set-associative uses 2 × (6 + 12) = 36-bit words, so the cache is 512 × 36 and holds 1024 memory words.",
+    "source_raw": "Unit 5, p. 36 and p. 38"
+  },
+  {
+    "id": 18,
+    "question": "[Straightforward ] What does BSA do, and how many clocks does it need?",
+    "generated": "BSA (branch and save return address) stores the return address (M[AR] ← PC, AR ← AR + 1, then PC ← AR, SC ← 0) (File: Unit3 Part2 Basic Computer Organization.pdf, Page: 34). It needs two clocks (File: Unit3 Part2 Basic Computer Organization.pdf, Page: 34).",
+    "hit": true,
+    "sources": [
+      {
+        "filename": "Unit3 Part2 Basic Computer Organization.pdf",
+        "page": 34,
+        "score": 0.405
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 20,
+        "score": 0.3862
+      },
+      {
+        "filename": "Unit3 Part2 Basic Computer Organization.pdf",
+        "page": 12,
+        "score": 0.3663
+      }
+    ],
+    "expected_answer": "It saves the return address and branches to the subroutine: M[AR",
+    "source_raw": "Unit 3 Part 2, p. 34 (summary on p. 32)"
+  },
+  {
+    "id": 19,
+    "question": "[Rephrased ] Which cache write policy updates main memory only when a modified word is removed from the cache?",
+    "generated": "The write-back policy updates main memory only when the word is removed from the cache (File: Unit5 IO and Memory Organization.pdf, Page: 39).",
+    "hit": true,
+    "sources": [
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 39,
+        "score": 0.7521
+      },
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 34,
+        "score": 0.5863
+      },
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 33,
+        "score": 0.5666
+      }
+    ],
+    "expected_answer": "Write-back. The modified location is flagged, and main memory is updated when the word is evicted.",
+    "source_raw": "Unit 5, p. 39"
+  },
+  {
+    "id": 20,
+    "question": "[Unanswerable ] How is least-recently-used (LRU) replacement implemented in hardware, for example with counters or a stack?",
+    "generated": "I don't know based on these notes.",
+    "hit": null,
+    "sources": [
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 41,
+        "score": 0.4669
+      },
+      {
+        "filename": "Unit5 IO and Memory Organization.pdf",
+        "page": 38,
+        "score": 0.459
+      },
+      {
+        "filename": "Unit4 IO Interrupts CPU Organization.pdf",
+        "page": 46,
+        "score": 0.4458
+      }
+    ],
+    "expected_answer": "Not in notes. LRU is only named as one of the replacement options (random, FIFO, LRU).",
+    "source_raw": "not in notes"
+  }
+]
